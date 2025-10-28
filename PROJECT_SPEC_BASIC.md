@@ -15,7 +15,7 @@ PROJECT_SPEC_BASIC.md
   後端(Java, SQL)：Spring Boot + PostgreSQL 
   技術展示：figma
 
-  Java用21
+  Java用21，我是用Oracle OpenJDK 21.0.8 – aarch64。
   用Spring Boot用3.5.7
 
 
