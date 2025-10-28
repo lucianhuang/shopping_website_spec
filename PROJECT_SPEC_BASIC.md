@@ -12,8 +12,14 @@ PROJECT_SPEC_BASIC.md
 管理者能登入後台，新增/修改/刪除商品、上下架、調整庫存。
 技術採用：
   前端（HTML, CSS, JavaScript）：React + Tailwind + figma
-  後端(Java, SQL)：Spring Boot + PostgreSQL
+  後端(Java, SQL)：Spring Boot + PostgreSQL 
   技術展示：figma
+
+  Java用21
+  用Spring Boot用3.5.7
+
+
+
 
 2. 範圍：
 前台：商品清單/詳情、購物車、結帳（模擬支付）、訂單列表、登入/註冊
