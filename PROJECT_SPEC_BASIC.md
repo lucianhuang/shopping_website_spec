@@ -11,7 +11,7 @@ PROJECT_SPEC_BASIC.md
 訪客能逛商品、加入購物車、結帳（模擬付款）；
 管理者能登入後台，新增/修改/刪除商品、上下架、調整庫存。
 技術採用：
-  前端（HTML, CSS, JavaScript）：React + Tailwind + figma
+  前端（HTML, CSS, JavaScript）：React + Tailwind + figma。要試著使用TypeScript？
   後端(Java, SQL)：Spring Boot + PostgreSQL 
   技術展示：figma
 
