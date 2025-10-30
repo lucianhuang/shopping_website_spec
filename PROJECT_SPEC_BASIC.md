@@ -43,7 +43,7 @@ MVP 預計於 **2025/12/10** 完成。
 
 ---
 
-### 3.2 Product / Event（負責：趙宇玄、楊晉有）  
+### 3.2 Product / Event（負責：楊晉有）  
 **Goal：** 建立活動清單與詳細頁，顯示票種與剩餘數量。  
 **Deliverables：**  
 - 實作用戶可瀏覽與篩選活動的頁面。  
@@ -99,7 +99,7 @@ MVP 預計於 **2025/12/10** 完成。
 
 ---
 
-### 3.7 Admin CMS（負責：黃炯睿）  
+### 3.7 Admin CMS（負責：趙宇玄）  
 **Goal：** 建立後台內容管理系統，支援公告與活動維護。  
 **Deliverables：**  
 - 實作登入驗證（Session / Basic Auth）。  
@@ -275,7 +275,7 @@ erDiagram
 ## 5. 系統資料流程（System Data Flow）
 
 ```text
-Seat (黃炯睿)
+Seat (opt.)
    ↓ sectionId, price
 Checkout (曾世傑)
    ↓ order_id
@@ -283,7 +283,7 @@ Payment (黃炯睿)
    ↓ payment record → update orders
 Member (塗晉維)
    ↑ fetch payment status
-Admin CMS (黃炯睿)
+Admin CMS (趙宇玄)
    ↑ manage announcements, events, tickets
 
 
