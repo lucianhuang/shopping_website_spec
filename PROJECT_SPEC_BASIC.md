@@ -1,130 +1,290 @@
-```text
+# Ticketing Website  
+**Team:** AIVAF  
+**Members:** 陳瑋柔、趙宇玄、楊晉有、塗晉維、曾世傑、黃炯睿  
+**Document:** Project Specification (Basic Version – Deliverable Oriented)  
+**Last Update:** 2025-10-31  
 
-PROJECT_SPEC_BASIC.md
+---
 
-狀態：凍結基礎範圍
-期間：11/3(宜起基) – 12/10(宜掛牌) 
-目標：4 週做出「可上線、可 Demo、可放履歷」的購物網站（前台 + 後台 UI 基礎）
+## 1. 專案概述（Project Overview）  
 
-1. 專案概述：
-做一個真的能用的購物網站：
-訪客能逛商品、加入購物車、結帳（模擬付款）；
-管理者能登入後台，新增/修改/刪除商品、上下架、調整庫存。
-技術採用：
-  前端（HTML, CSS, JavaScript）：React + Tailwind + figma。要試著使用TypeScript？
-  後端(Java, SQL)：Spring Boot + PostgreSQL 
-  技術展示：figma
+**Ticketing Website** 是一個活動票券販售與座位選擇平台。  
+使用者可瀏覽活動、登入會員、選擇座位並完成付款；  
+後台（Admin CMS）提供營運人員維護公告與活動資料。  
 
-  Java用21，我是用Oracle OpenJDK 21.0.8 – aarch64。
-  用Spring Boot用3.5.7
+本文件為 **基礎版開發規格（Basic Version Specification）**，  
+以「行動導向」格式撰寫，明確說明每位組員的開發目標與交付內容。  
+MVP 預計於 **2025/12/10** 完成。  
+
+---
+
+## 2. 系統架構（System Architecture）  
+
+| 層級 | 模組 | 說明 |
+|------|------|------|
+| 前端層（Frontend Layer） | HomePage、Product / Event、Member | 提供使用者瀏覽與互動介面。 |
+| 交易層（Transaction Layer） | Checkout、Checkout Database、Payment、Seat Selection | 處理選位、結帳與金流。 |
+| 後台層（Admin Layer） | Admin CMS | 管理公告與活動內容。 |
+
+---
+
+## 3. 模組任務說明（Module Responsibilities）  
+
+---
+
+### 3.1 HomePage（負責：陳瑋柔）  
+**Goal：** 建立首頁介面，整合主要活動入口與公告資訊。  
+**Deliverables：**  
+- 設計導覽列（Navigation Bar）與輪播圖（Carousel）。  
+- 建立公告區與精選活動展示區。  
+- 串接後台公告資料（Admin CMS）。  
+- 完成首頁導向連結至活動與登入頁面。  
+**Deliverable Format：** 完成首頁前端頁面（HTML / React / CSS），並可正常導向其他頁面。  
+
+---
+
+### 3.2 Product / Event（負責：趙宇玄、楊晉有）  
+**Goal：** 建立活動清單與詳細頁，顯示票種與剩餘數量。  
+**Deliverables：**  
+- 實作用戶可瀏覽與篩選活動的頁面。  
+- 建立活動詳情頁，顯示活動名稱、日期、地點、票價。  
+- 連接資料來源（`events`, `ticket_types`）。  
+- 實作倒數計時與「加入購物車」功能。  
+**Deliverable Format：** 完成活動列表與詳情頁前端程式（React Components），資料由假資料或 API 提供。  
+
+---
+
+### 3.3 Member（負責：塗晉維）  
+**Goal：** 建立會員登入、註冊與訂單查詢功能。  
+**Deliverables：**  
+- 完成會員註冊與登入邏輯（Session / Cookie-based）。  
+- 建立會員資訊修改頁面。  
+- 實作訂單與付款紀錄查詢（由 Payment 模組提供資料）。  
+**Deliverable Format：** 完成會員相關頁面（Login / Profile / Orders）與對應後端 API。  
+
+---
+
+### 3.4 Checkout（負責：曾世傑）  
+**Goal：** 負責前端購物車與結帳流程整合。  
+**Deliverables：**  
+- 顯示購物車內容與總金額。  
+- 設計結帳頁面與支付方式選擇。  
+- 呼叫 Payment API 進行模擬付款。  
+- 顯示結帳成功畫面、QR Code 與 Email 通知。  
+- 測試與 Seat、Payment、Checkout DB 模組的資料流。  
+**Deliverable Format：** 完成可操作的 Checkout 前端流程（含付款按鈕與成功畫面）。  
+
+---
+
+### 3.5 Payment（負責：黃炯睿）  
+**Goal：** 建立模擬金流系統，完成付款狀態更新與訂單關聯。  
+**Deliverables：**  
+- 開發模擬 API `/api/payment/mockPay`。  
+- 實作付款後更新訂單狀態為 `PAID`。  
+- 提供交易結果給 Checkout 模組使用。  
+- 撰寫金流模擬測試案例。  
+**Deliverable Format：** 完成後端 Payment 模組（API + DB Schema），可被 Checkout 成功呼叫並更新訂單。  
+
+---
+
+### 3.6 Seat Selection（負責：黃炯睿）  
+**Goal：** 建立互動式座位分區選擇頁面。  
+**Deliverables：**  
+- 使用 SVG 呈現場館分區（Section View）。  
+- 顯示分區名稱、票價與剩餘數量。  
+- 點擊分區後可選擇購買張數（1–6 張）。  
+- 將選擇結果傳遞至 Checkout 模組。  
+- 測試 Seat → Checkout → Order → Payment 資料流。  
+**Deliverable Format：** 完成互動式前端座位選擇頁面（HTML / SVG / JS），可正確傳遞資料至 Checkout。  
+
+---
+
+### 3.7 Admin CMS（負責：黃炯睿）  
+**Goal：** 建立後台內容管理系統，支援公告與活動維護。  
+**Deliverables：**  
+- 實作登入驗證（Session / Basic Auth）。  
+- 建立公告、活動、票種 CRUD 功能。  
+- 確保更新內容可即時反映於前台。  
+- 設計簡潔後台操作介面。  
+**Deliverable Format：** 完成可操作的 CMS 後台（含登入頁、公告與活動管理頁），可與前台資料同步。  
+
+---
+
+## 4. 資料庫設計（Database Design）  
+
+> 本章定義系統四大資料庫分類，說明各資料表用途、關聯邏輯與設計原則。  
+
+---
+
+### 4.1 Product Database（負責：楊晉有）  
+**Purpose：** 管理活動、票種與座位資料。  
+**Main Tables：**  
+- `events`：活動基本資料（名稱、日期、場地）。  
+- `ticket_types`：票種資訊（活動編號、價格、庫存）。  
+- `sections`：座位區域設定（名稱、座位數）。  
+- `seat_inventory`：分區剩餘票量。  
+**Relations：**  
+- 一個 `event` 可包含多個 `ticket_types`。  
+- `ticket_types` 與 `seat_inventory` 對應票價與庫存關係。  
+
+---
+
+### 4.2 Member Database（負責：塗晉維）  
+**Purpose：** 儲存會員帳號、身分資料與訂單連結。  
+**Main Tables：**  
+- `users`：會員帳號與基本資訊（姓名、信箱、密碼）。  
+**Relations：**  
+- 一位會員對應多筆 `orders`。  
+- 透過外鍵 `user_id` 與結帳資料關聯。  
+
+---
+
+### 4.3 Checkout Database（負責：黃炯睿）  
+**Purpose：** 管理訂單主體、明細與座位扣減。  
+**Main Tables：**  
+- `orders`：訂單主表（訂單編號、會員編號、狀態）。  
+- `order_items`：訂單明細（票種、數量、金額）。  
+- `seat_inventory`：與座位關聯的庫存表。  
+**Relations：**  
+- 一筆 `order` 對應多筆 `order_items`。  
+- `seat_inventory` 庫存更新由 `orders` 觸發。  
+
+---
+
+### 4.4 Payment Database（負責：黃炯睿）  
+**Purpose：** 處理付款紀錄與訂單狀態更新。  
+**Main Tables：**  
+- `payments`：付款紀錄表（訂單編號、金額、付款狀態、時間）。  
+**Relations：**  
+- 每筆 `order` 對應一筆 `payment`。  
+- `orders.payment_status` 由金流更新結果改變。  
 
 
+### 4.5 資料關聯圖（Entity Relationship Diagram）  
 
+```mermaid
+erDiagram
+    USERS {
+        int id PK
+        string name
+        string email
+        string password
+    }
 
-2. 範圍：
-前台：商品清單/詳情、購物車、結帳（模擬支付）、訂單列表、登入/註冊
-後台 UI（Level 1）：登入、商品表格（分頁/基本排序）、新增/編輯/刪除、上下架、庫存±
-後端：REST API（Swagger）、JWT、JPA、交易一致性（下單/庫存）
-DB：PostgreSQL + Flyway V1（核心 5 張表）
-部署：前端（Pages/Netlify）、後端（Render/Railway）
+    EVENTS {
+        int id PK
+        string name
+        date date
+        string location
+    }
 
------- 還不確定要不要做------
-圖片上傳（用 URL 欄位暫代）
-進階查詢（多欄排序/分類/價格區間）
-批次操作、審計日誌、CI/CD、自動化測試（整合/E2E）
------- 還不確定要不要做------
+    TICKET_TYPES {
+        int id PK
+        int event_id FK
+        decimal price
+        int stock
+    }
 
-3. 使用者與情境：(技術亮點？)
-訪客：我想瀏覽商品、搜尋關鍵字、看看詳情，再加入購物車。
-會員：我想登入、把購物車結帳、付款（模擬）、之後能看到我的訂單。
-管理者：我想登入後台、維護商品資料（CRUD）、上下架、調整庫存。
+    SECTIONS {
+        int id PK
+        int event_id FK
+        string name
+        int capacity
+    }
 
-4. 主要頁面：
-商品清單（分頁 + 搜尋欄）
-/products/:id 商品詳情（名稱/價格/描述/主圖 URL、加入購物車）
-/cart 購物車（改數量/刪除/去結帳）
-/checkout 結帳（送出訂單、模擬付款 → 完成）
-/orders 訂單列表與明細
-/login、/register
-/admin/login 後台登入
-/admin/products 後台商品管理（表格 + Dialog 表單）
-前端套件：React Router、React Hook Form + Zod、TanStack Query、Tailwind、（可選）shadcn/ui
+    SEAT_INVENTORY {
+        int id PK
+        int section_id FK
+        int remaining
+    }
 
-5. API 概覽：
-實際細節以 Swagger 為準；此處只列路徑與用途，方便前端對齊。
-公開/會員
-Method	Endpoint	說明
-POST	/api/auth/register	註冊（BCrypt 雜湊）
-POST	/api/auth/login	登入，回 JWT（含角色）
-GET	/api/products?page=&size=&q=&sort=	商品清單（分頁 + 簡易搜尋）
-GET	/api/products/{id}	商品詳情
-GET	/api/cart	取得購物車（登入後）
-POST	/api/cart/items	加入/更新購物車項目
-DELETE	/api/cart/items/{itemId}	刪除購物車項目
-POST	/api/orders	建立訂單（從購物車產生、扣庫存、狀態=PENDING）
-POST	/api/payments/{orderId}/simulate	模擬付款 → 訂單改為 PAID
-GET	/api/orders	我的訂單列表
-GET	/api/orders/{id}	訂單明細
-後台（需 ROLE_ADMIN）
-Method	Endpoint	說明
-GET	/api/admin/products?page=&size=&sort=	後台商品清單（分頁/基本排序）
-POST	/api/admin/products	新增商品
-PUT	/api/admin/products/{id}	編輯商品
-DELETE	/api/admin/products/{id}	刪除商品
-POST	/api/admin/products/{id}/publish	上/下架切換（body: { "published": true/false }）
-POST	/api/admin/products/{id}/adjust-stock	庫存±（body: `{ "delta": 1
+    ORDERS {
+        int id PK
+        int user_id FK
+        decimal total_amount
+        string payment_status
+        timestamp created_at
+    }
 
-6. 資料模型：
-Flyway V1 會建立以下表；圖片先用 URL 文字欄位。
+    ORDER_ITEMS {
+        int id PK
+        int order_id FK
+        int ticket_type_id FK
+        int quantity
+        decimal price
+    }
 
-users
-id, email (unique), password_hash, role (USER/ADMIN), created_at
+    PAYMENTS {
+        int id PK
+        int order_id FK
+        string method
+        decimal amount
+        string status
+        timestamp paid_at
+    }
 
-products
-id, name, description, price_cents, stock, status (PUBLISHED/DRAFT), cover_image_url, created_at
-
-orders
-id, user_id (FK), total_cents, status (PENDING/PAID/CANCELLED), created_at
-
-order_items
-id, order_id (FK), product_id (FK), price_cents, qty
-
-cart_items
-id, user_id (FK), product_id (FK), qty
-
-索引建議：products(name), products(price_cents), orders(user_id, created_at)
-
-7. 非功能需求（NFR）：
-安全：JWT + Spring Security；Admin 路由需 ROLE_ADMIN
-驗證：前端（Zod）＋後端（Bean Validation）欄位規則一致
-交易一致性：@Transactional 用於「生成訂單/扣庫存」「庫存調整」，禁止負庫存
-文件：啟動即有 Swagger UI（OpenAPI）；README 列操作方式與 Demo 帳密
-效能/可用性：所有清單均分頁；RWD 手機可用；錯誤有易懂訊息
-
-8. 開發分工：
-還沒想好
-
-9. 進度表：
-
-Week 1	專案骨架、DB V1、登入/註冊、商品清單/詳情
-
-Week 2	購物車（本地 + 同步）、訂單建立（PENDING）
-
-Week 3	模擬支付（PAID）、訂單列表、後台 CRUD（基本）
-
-Week 4	上下架/庫存±、部署（前後端）、README/Swagger 完成
-
-10. 驗收標準：
-前台能完成「瀏覽 → 加入購物車 → 結帳（模擬）→ 查看訂單」全流程
-後台可登入並完成商品新增/編輯/刪除、上下架、庫存±（錯誤訊息完善）
-Swagger 可互動操作所有主要端點
-部署完成且提供公開網址（前端＋後端）
-README 含：架構圖、技術堆疊、啟動/部署方式、Demo 帳密
-
-11. 可能的問題：
-JWT/CORS 問題：預先設定允許來源；401 導回登入、403 顯示無權限
-庫存負數：後端 Service 檢查（若 <0 回 422）；交易鎖定
-分頁/排序不一致：統一使用 page,size,sort,q 命名
-部署連線失敗：優先用同平台託管 DB；在 README 記錄環境變數
+    %% Relationships
+    USERS ||--o{ ORDERS : owns
+    ORDERS ||--|{ ORDER_ITEMS : contains
+    ORDER_ITEMS }o--|| TICKET_TYPES : references
+    TICKET_TYPES }o--|| EVENTS : belongs_to
+    EVENTS ||--o{ SECTIONS : includes
+    SECTIONS ||--o{ SEAT_INVENTORY : tracks
+    ORDERS ||--|| PAYMENTS : has
 
 ```
+
+---
+
+### 4.6 Database Notes  
+
+**1. 命名慣例（Naming Convention）**  
+- 資料表名稱採用 **snake_case**（全小寫、底線分隔）。  
+- 資料表名稱使用 **單數（singular form）**，例如 `order`, `user`, `payment`。  
+- 主鍵（Primary Key）統一為 `id`。  
+- 外鍵（Foreign Key）命名格式：`<related_table>_id`。  
+
+**2. 關聯設定（Relation Rules）**  
+- 外鍵使用 `ON DELETE CASCADE`，確保刪除主資料時關聯紀錄自動清除。  
+- 一對多（1:N）關聯：  
+  - `users` → `orders`  
+  - `orders` → `order_items`  
+- 一對一（1:1）關聯：  
+  - `orders` ↔ `payments`  
+- 多對一（N:1）關聯：  
+  - `order_items` → `ticket_types`  
+  - `ticket_types` → `events`  
+
+**3. 資料一致性（Data Consistency）**  
+- `orders.payment_status` 須與 `payments.status` 同步更新。  
+- `seat_inventory.remaining` 每次成功下單後自動扣減。  
+- 每筆 `order_item` 需對應有效的 `ticket_type` 與 `event_id`。  
+
+**4. 資料安全（Data Integrity & Security）**  
+- 密碼欄位使用 **bcrypt 或 Argon2** 進行雜湊儲存。  
+- 不直接儲存信用卡資訊（mock payment 不涉及金流 API）。  
+- 所有 `timestamp` 欄位統一使用 **UTC+0** 時區儲存。  
+
+**5. 未來擴充計畫（Future Extensions）**  
+- 預留 `transaction_id` 欄位以支援第三方金流串接（如 LINE Pay、NewebPay）。  
+- 新增 `refunds` 表以支援退票功能。  
+- `events` 可新增欄位 `category`（活動類型）與 `organizer`（主辦單位）。  
+- `payments` 可擴充 `method` 欄位以支援多幣別或外部代碼。  
+
+---
+
+## 5. 系統資料流程（System Data Flow）
+
+```text
+Seat (黃炯睿)
+   ↓ sectionId, price
+Checkout (曾世傑)
+   ↓ order_id
+Payment (黃炯睿)
+   ↓ payment record → update orders
+Member (塗晉維)
+   ↑ fetch payment status
+Admin CMS (黃炯睿)
+   ↑ manage announcements, events, tickets
+
+
