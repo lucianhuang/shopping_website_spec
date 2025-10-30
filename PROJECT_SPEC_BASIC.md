@@ -87,7 +87,7 @@ MVP 預計於 **2025/12/10** 完成。
 
 ---
 
-### 3.6 Seat Selection（負責：黃炯睿）  
+### 3.6 Seat Selection（opt.）  
 **Goal：** 建立互動式座位分區選擇頁面。  
 **Deliverables：**  
 - 使用 SVG 呈現場館分區（Section View）。  
