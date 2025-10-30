@@ -231,7 +231,6 @@ erDiagram
     EVENTS ||--o{ SECTIONS : includes
     SECTIONS ||--o{ SEAT_INVENTORY : tracks
     ORDERS ||--|| PAYMENTS : has
-
 ```
 
 ---
@@ -286,5 +285,7 @@ Member (塗晉維)
    ↑ fetch payment status
 Admin CMS (黃炯睿)
    ↑ manage announcements, events, tickets
+
+
 
 
